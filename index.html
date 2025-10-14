@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decimal Dash — Round Decimals Game</title>
+    <style>
+        :root {
+            --bg: #0f1724;
+            --card: #0b1220;
+            --accent: #60a5fa;
+            --accent2: #a78bfa;
+            --glass: rgba(255, 255, 255, 0.04);
+            --success: #34d399;
+            --danger: #f87171;
+            --muted: #9ca3af;
+            --glass-2: rgba(255, 255, 255, 0.02);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, var(--bg), #021025);
+            color: #e6eef8
+        }
+
+        .wrap {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px
+        }
+
+        .ui-card {
+            width: 980px;
+            max-width: 98%;
+            background: linear-gradient(180deg, var(--card), #06121a);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 8px 40px rgba(2, 6, 23, 0.75);
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 18px
+        }
+
+        /* left panel */
+        .left {
+            padding: 12px;
+            background: var(--glass);
+            border-radius: 10px;
+            backdrop-filter: blur(6px)
+        }
+
+        .brand {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: #021024
+        }
+
+        h1 {
+            margin: 8px 0 4px;
+            font-size: 20px
+        }
+
+        p.lead {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .levels {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px
+        }
+
+        .level-btn {
+            background: transparent;
+            border: 1px solid var(--glass-2);
+            padding: 10px;
+            border-radius: 8px;
+            color: var(--muted);
+            cursor: pointer;
+            text-align: left
+        }
+
+        .level-btn.active {
+            border-color: rgba(96, 165, 250, 0.9);
+            box-shadow: 0 6px 18px rgba(96, 165, 250, 0.06);
+            color: var(--accent)
+        }
+
+        .stats {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center
+        }
+
+        .stat .label {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .stat .num {
+            font-size: 18px;
+            font-weight: 700
+        }
+
+        .controls {
+            margin-top: 14px;
+            display: flex;
+            gap: 8px
+        }
+
+        .btn {
+            background: var(--accent);
+            border: none;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #021024;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+
+        /* right panel */
+        .main {
+            padding: 18px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            display: flex;
+            flex-direction: column
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .question-card {
+            margin-top: 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            padding: 22px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            min-height: 200px
+        }
+
+        .decimal {
+            font-size: 40px;
+            font-weight: 800;
+            letter-spacing: 2px
+        }
+
+        .small {
+            font-size: 14px;
+            color: var(--muted)
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            max-width: 580px;
+            /* make field longer */
+            justify-content: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 60px;
+            /* rounder shape */
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.04);
+            color: inherit;
+            font-size: 18px;
+            outline: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+
+        .submit {
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: none;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .feed {
+            margin-top: 8px;
+            height: 28px
+        }
+
+        .feed .msg {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px
+        }
+
+        .feed .ok {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--success)
+        }
+
+        .feed .bad {
+            background: rgba(248, 113, 113, 0.08);
+            color: var(--danger)
+        }
+
+        .anim-zone {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none
+        }
+
+        .float-num {
+            position: absolute;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(0);
+            animation: float 6s linear infinite
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0)
+            }
+
+            50% {
+                transform: translateY(-30px) translateX(30px) rotate(12deg)
+            }
+
+            100% {
+                transform: translateY(0) translateX(-10px) rotate(0)
+            }
+        }
+
+        .bottom-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 12px
+        }
+
+        .meter {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            overflow: hidden
+        }
+
+        .meter>i {
+            display: block;
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            width: 0%
+        }
+
+        /* responsive */
+        @media (max-width:880px) {
+            .ui-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="ui-card" role="application" aria-label="Decimal Dash game">
+            <aside class="left" aria-hidden="false">
+                <div class="brand">
+                    <div class="logo">DD</div>
+                    <div>
+                        <h1>Decimal Dash</h1>
+                        <p class="lead">Round decimals to tenths, hundredths, thousandths — and win!</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px">
+                    <strong>Choose level</strong>
+                    <div class="levels" id="levelList">
+                        <button class="level-btn active" data-level="1">Level 1 — Round to nearest
+                            <strong>tenth</strong> (0.1)</button>
+                        <button class="level-btn" data-level="2">Level 2 — Round to nearest <strong>hundredth</strong>
+                            (0.01)</button>
+                        <button class="level-btn" data-level="3">Level 3 — Round to nearest <strong>thousandth</strong>
+                            (0.001)</button>
+                        <button class="level-btn" data-level="4">Bonus — Mixed & timer</button>
+                    </div>
+                </div>
+
+                <div class="stats">
+                    <div class="stat">
+                        <div class="label">Score</div>
+                        <div class="num" id="score">0</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">High Score</div>
+                        <div class="num" id="highScore">0</div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn" id="startBtn">Start</button>
+                    <button class="btn" id="hintBtn">Hint</button>
+                    <button class="btn" id="resetBtn">Reset</button>
+                </div>
+
+                <div style="margin-top:12px;font-size:13px;color:var(--muted)">
+                    <strong>How to play</strong>
+                    <p style="margin:6px 0;color:var(--muted);font-size:13px">A decimal will appear. Type the correctly
+                        rounded value and press Submit. Earn points for speed & accuracy.</p>
+                </div>
+
+            </aside>
+
+            <main class="main">
+                <div class="info-row">
+                    <div class="small">Round to: <strong id="currentRoundTo">tenth</strong></div>
+                    <div class="small">Time: <strong id="timer">--:--</strong></div>
+                </div>
+
+                <div class="question-card" id="questionCard">
+                    <div class="decimal" id="decimalDisplay">—</div>
+                    <div class="small">Round this number to the nearest <span id="roundLabel">tenth</span></div>
+
+                    <div class="input-row">
+                        <input aria-label="your answer" id="answerInput" placeholder="Type e.g. 4.7 or 4.70" />
+                        <button class="submit" id="submitBtn">Submit</button>
+                    </div>
+
+                    <div class="feed" id="feedback"></div>
+
+                    <div class="anim-zone" id="animZone" aria-hidden="true">
+                        <!-- floating decorative numbers injected by JS -->
+                    </div>
+
+                </div>
+
+                <div class="bottom-row">
+                    <div style="flex:1">Progress
+                        <div class="meter" style="margin-top:8px"><i id="progressBar"></i></div>
+                    </div>
+                    <div style="min-width:120px;text-align:right;color:var(--muted)">Rounds: <strong
+                            id="roundsDone">0</strong></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Game state
+        const state = { level: 1, score: 0, high: 0, rounds: 0, active: false, timeLimit: 0, secondsLeft: 0, progress: 0 }
+
+        // DOM
+        const levelList = document.getElementById('levelList')
+        const startBtn = document.getElementById('startBtn')
+        const submitBtn = document.getElementById('submitBtn')
+        const resetBtn = document.getElementById('resetBtn')
+        const hintBtn = document.getElementById('hintBtn')
+        const decimalDisplay = document.getElementById('decimalDisplay')
+        const roundLabel = document.getElementById('roundLabel')
+        const currentRoundTo = document.getElementById('currentRoundTo')
+        const answerInput = document.getElementById('answerInput')
+        const feedback = document.getElementById('feedback')
+        const scoreEl = document.getElementById('score')
+        const highScoreEl = document.getElementById('highScore')
+        const timerEl = document.getElementById('timer')
+        const progressBar = document.getElementById('progressBar')
+        const roundsDone = document.getElementById('roundsDone')
+        const animZone = document.getElementById('animZone')
+
+        // load high score
+        state.high = Number(localStorage.getItem('dd_high') || 0)
+        highScoreEl.textContent = state.high
+
+        // helper: float generator
+        function randomDecimal(level) {
+            // generate numbers with up to 4 decimal places
+            const base = Math.floor(Math.random() * 99) + 1
+            const decimals = Math.floor(Math.random() * 9000) + 1 // 1..9000
+            const places = 3 + (level === 4 ? Math.floor(Math.random() * 2) : 0) // sometimes more
+            const factor = Math.pow(10, places)
+            return (base + decimals / factor).toFixed(places)
+        }
+
+        function roundTo(value, level) {
+            // level 1 -> tenth, 2 -> hundredth, 3 -> thousandth, 4 -> random among these
+            const mapping = { 1: 1, 2: 2, 3: 3 }
+            let p = mapping[level] || [1, 2, 3][Math.floor(Math.random() * 3)]
+            // use Math.round with multiplier
+            const num = Number(value)
+            const mult = Math.pow(10, p)
+            return (Math.round(num * mult) / mult).toFixed(p)
+        }
+
+        function pickLabel(level) {
+            if (level === 1) return 'tenth'
+            if (level === 2) return 'hundredth'
+            if (level === 3) return 'thousandth'
+            return 'mixed'
+        }
+
+        // UI handlers
+        levelList.addEventListener('click', e => {
+            const btn = e.target.closest('.level-btn')
+            if (!btn) return
+            document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'))
+            btn.classList.add('active')
+            state.level = Number(btn.dataset.level)
+            currentRoundTo.textContent = pickLabel(state.level)
+            roundLabel.textContent = pickLabel(state.level)
+        })
+
+        function startGame() {
+            state.active = true
+            state.score = 0
+            state.rounds = 0
+            state.progress = 0
+            scoreEl.textContent = 0
+            roundsDone.textContent = 0
+            nextQuestion()
+            startBtn.textContent = 'Restart'
+            answerInput.focus()
+            // time limit for bonus level
+            if (state.level === 4) { state.timeLimit = 60; state.secondsLeft = state.timeLimit }
+            updateTimerDisplay()
+            state.timerInterval = setInterval(() => {
+                if (state.level === 4) { state.secondsLeft--; if (state.secondsLeft <= 0) { endGame(); } }
+                updateTimerDisplay()
+            }, 1000)
+        }
+
+        function endGame() {
+            state.active = false
+            clearInterval(state.timerInterval)
+            feedback.innerHTML = `<span class="msg ok">Game over! Score ${state.score}</span>`
+            if (state.score > state.high) { state.high = state.score; localStorage.setItem('dd_high', state.high); highScoreEl.textContent = state.high }
+            startBtn.textContent = 'Start'
+        }
+
+        function updateTimerDisplay() {
+            if (state.level === 4) { timerEl.textContent = `00:${String(state.secondsLeft).padStart(2, '0')}` }
+            else timerEl.textContent = '--:--'
+        }
+
+        function nextQuestion() {
+            const dec = randomDecimal(state.level)
+            state.current = { raw: dec, answer: roundTo(dec, state.level) }
+            decimalDisplay.textContent = state.current.raw
+            roundLabel.textContent = pickLabel(state.level)
+            feedback.innerHTML = ''
+            answerInput.value = ''
+            spawnFloatingNumbers()
+            updateProgress()
+        }
+
+        function updateProgress() {
+            state.progress = Math.min(100, (state.rounds % 10) * 10)
+            progressBar.style.width = state.progress + '%'
+            roundsDone.textContent = state.rounds
+        }
+
+        submitBtn.addEventListener('click', attempt)
+        answerInput.addEventListener('keydown', e => { if (e.key === 'Enter') attempt() })
+
+        function attempt() {
+            if (!state.active) { feedback.innerHTML = `<span class="msg bad">Press Start first</span>`; return }
+            const val = answerInput.value.trim()
+            if (val === '') { feedback.innerHTML = `<span class="msg bad">Type an answer</span>`; return }
+            // normalize: remove leading + zeros in decimals but allow trailing zeros
+            const normalized = (Number(val)).toFixed(state.current.answer.split('.')[1]?.length || 0)
+            const correct = Number(state.current.answer)
+            const given = Number(val)
+            if (Math.abs(given - correct) < 1e-9) {
+                // correct
+                state.rounds++
+                const timeBonus = state.level === 4 ? Math.max(0, Math.floor(state.secondsLeft / 5)) : 2
+                state.score += 10 + timeBonus
+                scoreEl.textContent = state.score
+                playTone(true)
+                feedback.innerHTML = `<span class="msg ok">Good! ${state.current.raw} → ${state.current.answer} (+${10 + timeBonus})</span>`
+                animateSuccess()
+                if (state.rounds % 10 === 0 && state.level !== 4) { // every 10 rounds, small reward
+                    feedback.innerHTML += ` <span class="msg ok">Level Bonus +20!</span>`
+                    state.score += 20
+                    scoreEl.textContent = state.score
+                }
+                if (state.score > state.high) { state.high = state.score; highScoreEl.textContent = state.high; localStorage.setItem('dd_high', state.high) }
+                setTimeout(() => { if (state.active) nextQuestion() }, 700)
+            } else {
+                // wrong
+                state.score = Math.max(0, state.score - 3)
+                scoreEl.textContent = state.score
+                playTone(false)
+                feedback.innerHTML = `<span class="msg bad">Try again — correct is ${state.current.answer}</span>`
+                animateFail()
+            }
+        }
+
+        hintBtn.addEventListener('click', () => {
+            if (!state.active) { feedback.innerHTML = `<span class="msg bad">Start the game to get hints</span>`; return }
+            // show how rounding works briefly
+            const raw = state.current.raw
+            const p = { 1: 1, 2: 2, 3: 3 }[state.level] || (Math.random() > 0.5 ? 1 : 2)
+            const explanation = explainRounding(raw, p)
+            feedback.innerHTML = `<span class="msg ok">Hint: ${explanation}</span>`
+        })
+
+        resetBtn.addEventListener('click', () => { localStorage.removeItem('dd_high'); state.high = 0; highScoreEl.textContent = 0; state.score = 0; scoreEl.textContent = 0 })
+
+        startBtn.addEventListener('click', () => {
+            if (state.active) { location.reload() } else startGame()
+        })
+
+        function explainRounding(raw, places) {
+            // show the digit that decides
+            const n = Number(raw)
+            const mult = Math.pow(10, places)
+            const rounded = (Math.round(n * mult) / mult).toFixed(places)
+            return `${raw} → look at the digit after the ${places === 1 ? 'tenth' : places === 2 ? 'hundredth' : 'thousandth'} place. Rounded result: ${rounded}`
+        }
+
+        // animations
+        function spawnFloatingNumbers() {
+            animZone.innerHTML = ''
+            for (let i = 0; i < 6; i++) {
+                const el = document.createElement('div')
+                el.className = 'float-num'
+                el.style.left = Math.random() * 80 + '%'
+                el.style.top = Math.random() * 70 + '%'
+                el.style.opacity = (0.4 + Math.random() * 0.8)
+                el.textContent = (Math.random() * 10).toFixed(1)
+                animZone.appendChild(el)
+            }
+        }
+
+        function animateSuccess() {
+            decimalDisplay.style.transform = 'scale(1.06)'
+            decimalDisplay.style.transition = 'transform 220ms'
+            setTimeout(() => { decimalDisplay.style.transform = '' }, 220)
+        }
+        function animateFail() {
+            decimalDisplay.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 300 })
+        }
+
+        // sound via WebAudio
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
+        function playTone(ok = true) {
+            const o = audioCtx.createOscillator()
+            const g = audioCtx.createGain()
+            o.type = ok ? 'sine' : 'sawtooth'
+            o.frequency.value = ok ? 880 : 220
+            g.gain.value = 0.0001
+            o.connect(g); g.connect(audioCtx.destination)
+            const now = audioCtx.currentTime
+            g.gain.linearRampToValueAtTime(0.08, now + 0.01)
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 0.25)
+            o.start(); o.stop(now + 0.26)
+        }
+
+        // initial seed
+        pickLabel(state.level)
+        spawnFloatingNumbers()
+
+        // accessibility: keyboard shortcuts
+        window.addEventListener('keydown', e => {
+            if (e.key === ' ' && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                e.preventDefault(); if (!state.active) startGame(); else attempt()
+            }
+            if (e.key === 'h') hintBtn.click()
+        })
+
+        // small tutorial for teacher
+        console.log('Decimal Dash ready — teach rounding to tenths/hundredths/thousandths. Shortcuts: Space=submit, H=hint')
+    </script>
+</body>
+
+</html>
