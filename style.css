@@ -1,0 +1,111 @@
+:root {
+    --primary-color: #009688; /* Teal — fresh and distinct */
+    --secondary-color: #FFC107;
+    --background-color: #e6f2ff;
+    --text-color: #333;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 150, 136, 0.15);
+    width: 90%;
+    max-width: 650px;
+    text-align: center;
+}
+
+h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: var(--text-color);
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #00796B;
+}
+
+.decimal-display {
+    font-size: 2em;
+    font-weight: bold;
+    color: #004d40;
+    margin: 20px 0;
+    padding: 12px 20px;
+    background-color: #e0f7fa;
+    border: 2px dashed var(--secondary-color);
+    display: inline-block;
+    border-radius: 10px;
+    font-family: 'Courier New', monospace;
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.option-button {
+    background-color: #e0f2f1;
+    color: #004d40;
+    padding: 15px;
+    border: 2px solid #80cbc4;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-family: 'Courier New', monospace;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.option-button:hover {
+    background-color: #b2dfdb;
+    border-color: var(--primary-color);
+}
+
+.option-button.correct {
+    background-color: #c8e6c9;
+    border-color: #4CAF50;
+    color: #2e7d32;
+}
+
+.option-button.incorrect {
+    background-color: #ffcdd2;
+    border-color: #F44336;
+    color: #c62828;
+}
